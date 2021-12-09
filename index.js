@@ -1,6 +1,7 @@
 ﻿(async () => {
+    require('dotenv').config()
     const Discord = require('discord.js');
-    const client = new Discord.Client();
+    const client = new Discord.Client({intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_VOICE_STATES, Discord.Intents.FLAGS.GUILD_WEBHOOKS, Discord.Intents.FLAGS.GUILD_INVITES]});
     client.commands = new Discord.Collection();
     const prefix = process.env.PREFIX;
     const token = process.env.BOT_TOKEN;
@@ -13,17 +14,17 @@
     const apiClient = new ApiClient({authProvider});
     const CronJob = require('cron').CronJob;
     const db = require('quick.db');
-    const voice = require('@discordjs/voice');
     const logs = require('discord-logs');
-    const fetch = require('node-fetch');
+    const {Player} = require('discord-music-player');
+    const player = new Player(client);
+    
+    client.player = player;
     logs(client);
     
-    const messhook = new Discord.WebhookClient('883438311543279626',process.env.MESSHOOK);
-    const voicehook = new Discord.WebhookClient('883439406701240390',process.env.VOICEHOOK);
-    const banshook = new Discord.WebhookClient('883439928258723900',process.env.BANSHOOK);
-    const TTVChannel = new Discord.WebhookClient('894977695316848650',process.env.TTVCHANNEL);
-    const play = require('play-dl');
-    let player = voice.createAudioPlayer();
+    const messhook = new Discord.WebhookClient({url: process.env.MESSHOOK});
+    const voicehook = new Discord.WebhookClient({url: process.env.VOICEHOOK});
+    const TTVChannel = new Discord.WebhookClient({url: process.env.TTVCHANNEL});
+    
     
     
     client.login(token);
@@ -122,12 +123,13 @@
       
 
       
-      client.on("message", async message => {
+      client.on("messageCreate", async message => {
         if (message.author.bot) return;
         if (!message.content.startsWith(prefix)) return;
         
-        let args = message.content.slice(prefix.length).trim().split(/ +/);
+        let args = message.content.slice(prefix.length).trim().split(/ +/g);
         let command = args.shift().toLowerCase();
+        let guildQueue = client.player.getQueue(message.guild.id);
         
         if(command == 'patchnote' && message.author.id == '477859542588456993'){
             let version = args.shift();
@@ -140,9 +142,53 @@
             embed.setDescription(`${note}`);
             
             let channel = message.guild.channels.cache.get('772805875768229929');
-            channel.send(embed);
+            channel.send({embeds: [embed]});
             embed.spliceFields(0,1);
             message.channel.bulkDelete(1);
+        }
+        if(command == 'play' || command == 'p'){
+            if(!message.member.voice.channel) return message.channel.send("Najpierw dołącz do kanału głosowego :D");
+            client.musicChannel = message.channel
+            let queue = client.player.createQueue(message.guild.id);
+            await queue.join(message.member.voice.channel);
+            if(!args.join(' ').includes('playlist')){
+              await queue.play(args.join(' ')).catch(_ => {
+                if(!guildQueue) queue.stop();
+              })
+            }else{
+              await queue.playlist(args.join(' ')).catch(_ => {
+                if(!guildQueue) queue.stop();
+              });
+            }
+        }
+        if(command === 'skip') {
+            guildQueue.skip();
+            message.channel.send('Pominięte :D')
+        }
+        if(command === 'leave') {
+            guildQueue.stop();
+        }
+        if(command === 'queue') {
+            let embed = new Discord.MessageEmbed();
+            embed.setColor('RANDOM')
+                .setTitle('Aktualna kolejka');
+            let j = 10
+            if(guildQueue.songs.length < 10){
+                j = guildQueue.songs.length
+            }
+            for(let i = 0; i < j; i++){
+                embed.addField(`${i+1}. ${guildQueue.songs[i].name}`,'\u200b',false);
+            }
+            message.channel.send({embeds: [embed]});
+            embed.spliceFields(0, j)
+        }
+        if(command === 'remove') {
+            guildQueue.remove(parseInt(args[0])-1);
+            message.channel.send('Usunięte :D')
+        }
+        if(command === 'shuffle') {
+            guildQueue.shuffle();
+            message.channel.send('Pomieszałem trochę w kolejce :p')
         }
         
         
@@ -379,57 +425,7 @@
             };
     });
     
-    //      BANS
     
-    client.on("guildBanAdd", (guild, user) => {
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`User banned on server!`, user.avatarURL({dynamic: true}))
-            .setColor(`980f1f`)
-            .addFields(
-                {
-                    name: `User:`,
-                    value: `${user.tag}\n${user}`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-    
-            try{
-                banshook.send({
-                    username: client.user.username+'-logger',
-                    avatarURL: client.user.avatarURL({dynamic: true}),
-                    embeds: [embed],
-                });
-            } catch(error){
-                console.error(error);
-            };
-        
-    });
-    
-    client.on("guildBanRemove", (guild, user) => {
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`User unbanned on server!`, user.avatarURL({dynamic: true}))
-            .setColor(`2ce709`)
-            .addFields(
-                {
-                    name: `User:`,
-                    value: `${user.tag}\n${user}`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-    
-            try{
-                banshook.send({
-                    username: client.user.username+'-logger',
-                    avatarURL: client.user.avatarURL({dynamic: true}),
-                    embeds: [embed],
-                });
-            } catch(error){
-                console.error(error);
-            };
-        
-    });
     
     client.on("error", (e) => console.error(e));
     client.on("warn", (e) => console.warn(e));
