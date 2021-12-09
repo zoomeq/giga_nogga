@@ -52,7 +52,7 @@
             let a = db.get(user).toString();
             if(streamStatus != null && a == 'false'){
                 try{
-                    TTVChannel.send('@here\nXayoo właśnie odpalił streama:\nhttps://www.twitch.tv/xayoo_',{
+                    TTVChannel.send('Xayoo właśnie odpalił streama:\nhttps://www.twitch.tv/xayoo_',{
                         username: 'Stream Checker',
                         avatarURL: client.user.avatarURL({dynamic: true}),
                     });
@@ -77,7 +77,7 @@
             let a = db.get(user).toString();
             if(streamStatus != null && a == 'false'){
                 try{
-                    TTVChannel.send('@here\nPopo właśnie odpalił streama:\nhttps://www.twitch.tv/popo',{
+                    TTVChannel.send('Popo właśnie odpalił streama:\nhttps://www.twitch.tv/popo',{
                         username: 'Stream Checker',
                         avatarURL: client.user.avatarURL({dynamic: true}),
                     });
@@ -102,7 +102,7 @@
             let a = db.get(user).toString();
             if(streamStatus != null && a == 'false'){
                 try{
-                    TTVChannel.send('@here\nVysotzky właśnie odpalił streama:\nhttps://www.twitch.tv/vysotzky',{
+                    TTVChannel.send('Vysotzky właśnie odpalił streama:\nhttps://www.twitch.tv/vysotzky',{
                         username: 'Stream Checker',
                         avatarURL: client.user.avatarURL({dynamic: true}),
                     });
