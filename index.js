@@ -199,7 +199,7 @@
     //      MESSAGE
     
     client.on("messageUpdate", async (oldmess, newmess) => {
-        if(oldmess.author.bot) return;
+        if(oldmess.author.bot || oldmess.guild.id != '619100495423864842') return;
         let oContent = oldmess.content, nContent = newmess.content, author = oldmess.author, channelId = oldmess.channel.id;
         if(!oContent) oContent = '-----';
         if(!nContent) nContent = '-----';
@@ -245,7 +245,7 @@
     });
     
     client.on("messageDelete", async (message) => {
-        if(message.author.bot) return;
+        if(message.author.bot || message.guild.id != '619100495423864842') return;
         let content = message.content, author = message.author, channelId = message.channel.id;
         if(!content) content = '-----';
         if(!author) author = '-----';
@@ -285,7 +285,7 @@
     });
     
     client.on("messageDeleteBulk", async (message) => {
-        if(message.last().author.bot) return;
+        if(message.last().author.bot  || message.last().guild.id != '619100495423864842') return;
         let content = message.last().content, author = message.last().author, channelId = message.last().channel.id;
         if(!content) content = '-----';
         if(!author) author = '-----';
@@ -327,6 +327,7 @@
     //      VOICE
     
     client.on("voiceChannelJoin", (member, vcchannel) => {
+        if(vcchannel.guild.id != '619100495423864842') return;
         let uId = member.user.id, vc = vcchannel.name;
         if(!uId) uId = '-----';
         if(!vc) vc = '-----';
@@ -358,6 +359,7 @@
     });
     
     client.on("voiceChannelLeave", (member, channel) => {
+        if(channel.guild.id != '619100495423864842') return;
         let uId = member.user.id, vc = channel.name;
         if(!uId) uId = '-----';
         if(!vc) vc = '-----';
@@ -389,6 +391,7 @@
     });
     
     client.on("voiceChannelSwitch", (member, oldchannel, newchannel) => {
+        if(oldchannel.guild.id != '619100495423864842') return;
         let uId = member.user.id, ovc = oldchannel.name, nvc = newchannel.name;
         if(!uId) uId = '-----';
         if(!ovc) ovc = '-----';
