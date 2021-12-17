@@ -120,7 +120,14 @@
     
     });
     
-      
+    globalThis.nowPlaying
+    client.player.on('songFirst', async (queue, song) => {
+      globalThis.nowPlaying = await client.musicChannel.send(`Aktualnie leci: ${song.name}`)
+    })
+    client.player.on('songChanged', (queue, newSong, oldSong) => {
+      globalThis.nowPlaying.edit(`Aktualnie leci: ${newSong.name}\nPoprzednio: ${oldSong.name}`)
+    })
+    
 
       
       client.on("messageCreate", async message => {
