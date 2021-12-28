@@ -331,109 +331,109 @@
             };
     });
     
-    //      VOICE
+    // //      VOICE
     
-    client.on("voiceChannelJoin", (member, vcchannel) => {
-        if(vcchannel.guild.id != '619100495423864842') return;
-        let uId = member.user.id, vc = vcchannel.name;
-        if(!uId) uId = '-----';
-        if(!vc) vc = '-----';
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`User joined voice channel!`, member.user.avatarURL({dynamic: true}))
-            .setColor(`59eae4`)
-            .addFields(
-                {
-                    name: `User:`,
-                    value: `<@${uId}>`,
-                    inline: false
-                },
-                {
-                    name: `Channel:`,
-                    value: `${vc}`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-            try{
-                voicehook.send({
-                    username: client.user.username+'-logger',
-                    avatarURL: client.user.avatarURL({dynamic: true}),
-                    embeds: [embed],
-                });
-            } catch(error){
-                console.error(error);
-            };
-    });
+    // client.on("voiceChannelJoin", (member, vcchannel) => {
+    //     if(vcchannel.guild.id != '619100495423864842') return;
+    //     let uId = member.user.id, vc = vcchannel.name;
+    //     if(!uId) uId = '-----';
+    //     if(!vc) vc = '-----';
+    //     const embed = new Discord.MessageEmbed()
+    //         .setAuthor(`User joined voice channel!`, member.user.avatarURL({dynamic: true}))
+    //         .setColor(`59eae4`)
+    //         .addFields(
+    //             {
+    //                 name: `User:`,
+    //                 value: `<@${uId}>`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Channel:`,
+    //                 value: `${vc}`,
+    //                 inline: false
+    //             },
+    //         )
+    //         .setTimestamp(Date.now())
+    //         try{
+    //             voicehook.send({
+    //                 username: client.user.username+'-logger',
+    //                 avatarURL: client.user.avatarURL({dynamic: true}),
+    //                 embeds: [embed],
+    //             });
+    //         } catch(error){
+    //             console.error(error);
+    //         };
+    // });
     
-    client.on("voiceChannelLeave", (member, channel) => {
-        if(channel.guild.id != '619100495423864842') return;
-        let uId = member.user.id, vc = channel.name;
-        if(!uId) uId = '-----';
-        if(!vc) vc = '-----';
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`User left voice channel!`, member.user.avatarURL({dynamic: true}))
-            .setColor(`e4380b`)
-            .addFields(
-                {
-                    name: `User:`,
-                    value: `<@${uId}>`,
-                    inline: false
-                },
-                {
-                    name: `Channel:`,
-                    value: `${vc}`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-            try{
-                voicehook.send({
-                    username: client.user.username+'-logger',
-                    avatarURL: client.user.avatarURL({dynamic: true}),
-                    embeds: [embed],
-                });
-            } catch(error){
-                console.error(error);
-            };
-    });
+    // client.on("voiceChannelLeave", (member, channel) => {
+    //     if(channel.guild.id != '619100495423864842') return;
+    //     let uId = member.user.id, vc = channel.name;
+    //     if(!uId) uId = '-----';
+    //     if(!vc) vc = '-----';
+    //     const embed = new Discord.MessageEmbed()
+    //         .setAuthor(`User left voice channel!`, member.user.avatarURL({dynamic: true}))
+    //         .setColor(`e4380b`)
+    //         .addFields(
+    //             {
+    //                 name: `User:`,
+    //                 value: `<@${uId}>`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Channel:`,
+    //                 value: `${vc}`,
+    //                 inline: false
+    //             },
+    //         )
+    //         .setTimestamp(Date.now())
+    //         try{
+    //             voicehook.send({
+    //                 username: client.user.username+'-logger',
+    //                 avatarURL: client.user.avatarURL({dynamic: true}),
+    //                 embeds: [embed],
+    //             });
+    //         } catch(error){
+    //             console.error(error);
+    //         };
+    // });
     
-    client.on("voiceChannelSwitch", (member, oldchannel, newchannel) => {
-        if(oldchannel.guild.id != '619100495423864842') return;
-        let uId = member.user.id, ovc = oldchannel.name, nvc = newchannel.name;
-        if(!uId) uId = '-----';
-        if(!ovc) ovc = '-----';
-        if(!nvc) ovc = '-----';
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`User switched voice channel!`, member.user.avatarURL({dynamic: true}))
-            .setColor(`24e124`)
-            .addFields(
-                {
-                    name: `User:`,
-                    value: `<@${uId}>`,
-                    inline: false
-                },
-                {
-                    name: `Previous channel:`,
-                    value: `${ovc}`,
-                    inline: false
-                },
-                {
-                    name: `Actual channel:`,
-                    value: `${nvc}`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-            try{    
-                voicehook.send({
-                    username: client.user.username+'-logger',
-                    avatarURL: client.user.avatarURL({dynamic: true}),
-                    embeds: [embed],
-                });
-            } catch(error){
-                console.error(error);
-            };
-    });
+    // client.on("voiceChannelSwitch", (member, oldchannel, newchannel) => {
+    //     if(oldchannel.guild.id != '619100495423864842') return;
+    //     let uId = member.user.id, ovc = oldchannel.name, nvc = newchannel.name;
+    //     if(!uId) uId = '-----';
+    //     if(!ovc) ovc = '-----';
+    //     if(!nvc) ovc = '-----';
+    //     const embed = new Discord.MessageEmbed()
+    //         .setAuthor(`User switched voice channel!`, member.user.avatarURL({dynamic: true}))
+    //         .setColor(`24e124`)
+    //         .addFields(
+    //             {
+    //                 name: `User:`,
+    //                 value: `<@${uId}>`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Previous channel:`,
+    //                 value: `${ovc}`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Actual channel:`,
+    //                 value: `${nvc}`,
+    //                 inline: false
+    //             },
+    //         )
+    //         .setTimestamp(Date.now())
+    //         try{    
+    //             voicehook.send({
+    //                 username: client.user.username+'-logger',
+    //                 avatarURL: client.user.avatarURL({dynamic: true}),
+    //                 embeds: [embed],
+    //             });
+    //         } catch(error){
+    //             console.error(error);
+    //         };
+    // });
     
     
     
