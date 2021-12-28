@@ -205,131 +205,131 @@
     // LOGI
     //      MESSAGE
     
-    client.on("messageUpdate", async (oldmess, newmess) => {
-        if(oldmess.author.bot || oldmess.guild.id != '619100495423864842') return;
-        let oContent = oldmess.content, nContent = newmess.content, author = oldmess.author, channelId = oldmess.channel.id;
-        if(!oContent) oContent = '-----';
-        if(!nContent) nContent = '-----';
-        if(!author) author = '-----';
-        if(!channelId) channelId = '-----';
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`Message edited!`, oldmess.author.avatarURL({dynamic: true}))
-            .setColor(`2ae3f7`)
-            .addFields(
-                {
-                    name: `Old message:`,
-                    value: oContent,
-                    inline: false
-                },
-                {
-                    name: `New message:`,
-                    value: nContent,
-                    inline: false
-                },
-                {
-                    name: `Message author:`,
-                    value: `<@${author.id}>`,
-                    inline: false
-                },
-                {
-                    name: `Channel:`,
-                    value: `<#${channelId}>`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-        try{
-        messhook.send({
-            username: client.user.username+'-logger',
-            avatarURL: client.user.avatarURL({dynamic: true}),
-            embeds: [embed],
-        }).then(() => {
-            embed.spliceFields(0,4);
-        });
-        } catch (error){
-            console.error(error);
-        };
-    });
+    // client.on("messageUpdate", async (oldmess, newmess) => {
+    //     if(oldmess.author.bot || oldmess.guild.id != '619100495423864842') return;
+    //     let oContent = oldmess.content, nContent = newmess.content, author = oldmess.author, channelId = oldmess.channel.id;
+    //     if(!oContent) oContent = '-----';
+    //     if(!nContent) nContent = '-----';
+    //     if(!author) author = '-----';
+    //     if(!channelId) channelId = '-----';
+    //     const embed = new Discord.MessageEmbed()
+    //         .setAuthor(`Message edited!`, oldmess.author.avatarURL({dynamic: true}))
+    //         .setColor(`2ae3f7`)
+    //         .addFields(
+    //             {
+    //                 name: `Old message:`,
+    //                 value: oContent,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `New message:`,
+    //                 value: nContent,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Message author:`,
+    //                 value: `<@${author.id}>`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Channel:`,
+    //                 value: `<#${channelId}>`,
+    //                 inline: false
+    //             },
+    //         )
+    //         .setTimestamp(Date.now())
+    //     try{
+    //     messhook.send({
+    //         username: client.user.username+'-logger',
+    //         avatarURL: client.user.avatarURL({dynamic: true}),
+    //         embeds: [embed],
+    //     }).then(() => {
+    //         embed.spliceFields(0,4);
+    //     });
+    //     } catch (error){
+    //         console.error(error);
+    //     };
+    // });
     
-    client.on("messageDelete", async (message) => {
-        if(message.author.bot || message.guild.id != '619100495423864842') return;
-        let content = message.content, author = message.author, channelId = message.channel.id;
-        if(!content) content = '-----';
-        if(!author) author = '-----';
-        if(!channelId) channelId = '-----'
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`Message deleted!`, message.author.avatarURL({dynamic: true}))
-            .setColor(`188894`)
-            .addFields(
-                {
-                    name: `Message:`,
-                    value: content,
-                    inline: false
-                },
-                {
-                    name: `Message author:`,
-                    value: `<@${author.id}>`,
-                    inline: false
-                },
-                {
-                    name: `Channel:`,
-                    value: `<#${channelId}>`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-            try{
-            messhook.send({
-                username: client.user.username+'-logger',
-                avatarURL: client.user.avatarURL({dynamic: true}),
-                embeds: [embed],
-            }).then(() => {
-                embed.spliceFields(0,3);
-            });
-        } catch(error){
-            console.error(error);
-        };
-    });
+    // client.on("messageDelete", async (message) => {
+    //     if(message.author.bot || message.guild.id != '619100495423864842') return;
+    //     let content = message.content, author = message.author, channelId = message.channel.id;
+    //     if(!content) content = '-----';
+    //     if(!author) author = '-----';
+    //     if(!channelId) channelId = '-----'
+    //     const embed = new Discord.MessageEmbed()
+    //         .setAuthor(`Message deleted!`, message.author.avatarURL({dynamic: true}))
+    //         .setColor(`188894`)
+    //         .addFields(
+    //             {
+    //                 name: `Message:`,
+    //                 value: content,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Message author:`,
+    //                 value: `<@${author.id}>`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Channel:`,
+    //                 value: `<#${channelId}>`,
+    //                 inline: false
+    //             },
+    //         )
+    //         .setTimestamp(Date.now())
+    //         try{
+    //         messhook.send({
+    //             username: client.user.username+'-logger',
+    //             avatarURL: client.user.avatarURL({dynamic: true}),
+    //             embeds: [embed],
+    //         }).then(() => {
+    //             embed.spliceFields(0,3);
+    //         });
+    //     } catch(error){
+    //         console.error(error);
+    //     };
+    // });
     
-    client.on("messageDeleteBulk", async (message) => {
-        if(message.last().author.bot  || message.last().guild.id != '619100495423864842') return;
-        let content = message.last().content, author = message.last().author, channelId = message.last().channel.id;
-        if(!content) content = '-----';
-        if(!author) author = '-----';
-        if(!channelId) channelId = '-----'
-        const embed = new Discord.MessageEmbed()
-            .setAuthor(`Message deleted (BULK)!`, message.last().author.avatarURL({dynamic: true}))
-            .setColor(`074045`)
-            .addFields(
-                {
-                    name: `Last message author:`,
-                    value: `<@${author.id}>`,
-                    inline: false
-                },
-                {
-                    name: `Last message content:`,
-                    value: `${content}`,
-                    inline: false
-                },
-                {
-                    name: `Channel:`,
-                    value: `<#${channelId}>`,
-                    inline: false
-                },
-            )
-            .setTimestamp(Date.now())
-            try{
-                messhook.send({
-                    username: client.user.username+'-logger',
-                    avatarURL: client.user.avatarURL({dynamic: true}),
-                    embeds: [embed],
-                }).then(() => {
-                    embed.spliceFields(0,3);
-                });
-            } catch(error){
-                console.error(error);
-            };
-    });
+    // client.on("messageDeleteBulk", async (message) => {
+    //     if(message.last().author.bot  || message.last().guild.id != '619100495423864842') return;
+    //     let content = message.last().content, author = message.last().author, channelId = message.last().channel.id;
+    //     if(!content) content = '-----';
+    //     if(!author) author = '-----';
+    //     if(!channelId) channelId = '-----'
+    //     const embed = new Discord.MessageEmbed()
+    //         .setAuthor(`Message deleted (BULK)!`, message.last().author.avatarURL({dynamic: true}))
+    //         .setColor(`074045`)
+    //         .addFields(
+    //             {
+    //                 name: `Last message author:`,
+    //                 value: `<@${author.id}>`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Last message content:`,
+    //                 value: `${content}`,
+    //                 inline: false
+    //             },
+    //             {
+    //                 name: `Channel:`,
+    //                 value: `<#${channelId}>`,
+    //                 inline: false
+    //             },
+    //         )
+    //         .setTimestamp(Date.now())
+    //         try{
+    //             messhook.send({
+    //                 username: client.user.username+'-logger',
+    //                 avatarURL: client.user.avatarURL({dynamic: true}),
+    //                 embeds: [embed],
+    //             }).then(() => {
+    //                 embed.spliceFields(0,3);
+    //             });
+    //         } catch(error){
+    //             console.error(error);
+    //         };
+    // });
     
     // //      VOICE
     
