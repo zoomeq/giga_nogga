@@ -205,235 +205,253 @@
     // LOGI
     //      MESSAGE
     
-    // client.on("messageUpdate", async (oldmess, newmess) => {
-    //     if(oldmess.author.bot || oldmess.guild.id != '619100495423864842') return;
-    //     let oContent = oldmess.content, nContent = newmess.content, author = oldmess.author, channelId = oldmess.channel.id;
-    //     if(!oContent) oContent = '-----';
-    //     if(!nContent) nContent = '-----';
-    //     if(!author) author = '-----';
-    //     if(!channelId) channelId = '-----';
-    //     const embed = new Discord.MessageEmbed()
-    //         .setAuthor(`Message edited!`, oldmess.author.avatarURL({dynamic: true}))
-    //         .setColor(`2ae3f7`)
-    //         .addFields(
-    //             {
-    //                 name: `Old message:`,
-    //                 value: oContent,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `New message:`,
-    //                 value: nContent,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Message author:`,
-    //                 value: `<@${author.id}>`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Channel:`,
-    //                 value: `<#${channelId}>`,
-    //                 inline: false
-    //             },
-    //         )
-    //         .setTimestamp(Date.now())
-    //     try{
-    //     messhook.send({
-    //         username: client.user.username+'-logger',
-    //         avatarURL: client.user.avatarURL({dynamic: true}),
-    //         embeds: [embed],
-    //     }).then(() => {
-    //         embed.spliceFields(0,4);
-    //     });
-    //     } catch (error){
-    //         console.error(error);
-    //     };
-    // });
+    client.on("messageUpdate", async (oldmess, newmess) => {
+        if(oldmess.author.bot || oldmess.guild.id != '619100495423864842') return;
+        let oContent = oldmess.content, nContent = newmess.content, author = oldmess.author, channelId = oldmess.channel.id;
+        if(!oContent) oContent = '-----';
+        if(!nContent) nContent = '-----';
+        if(!author) author = '-----';
+        if(!channelId) channelId = '-----';
+        const embed = {
+            color: 0x2ae3f7,
+            author: {
+                name: `Message edited!`,
+                icon_url: oldmess.author.avatarURL({dynamic: true}).toString(),
+            },
+            fields: [
+                {
+                    name: `Old message:`,
+                    value: oContent,
+                    inline: false
+                },
+                {
+                    name: `New message:`,
+                    value: nContent,
+                    inline: false
+                },
+                {
+                    name: `Message author:`,
+                    value: `<@${author.id}>`,
+                    inline: false
+                },
+                {
+                    name: `Channel:`,
+                    value: `<#${channelId}>`,
+                    inline: false
+                },
+            ],
+            timestamp: Date.now()
+        };
+        try{
+        messhook.send({
+            username: client.user.username+'-logger',
+            avatarURL: client.user.avatarURL({dynamic: true}),
+            embeds: [embed],
+        })
+        } catch (error){
+            console.error(error);
+        };
+    });
     
-    // client.on("messageDelete", async (message) => {
-    //     if(message.author.bot || message.guild.id != '619100495423864842') return;
-    //     let content = message.content, author = message.author, channelId = message.channel.id;
-    //     if(!content) content = '-----';
-    //     if(!author) author = '-----';
-    //     if(!channelId) channelId = '-----'
-    //     const embed = new Discord.MessageEmbed()
-    //         .setAuthor(`Message deleted!`, message.author.avatarURL({dynamic: true}))
-    //         .setColor(`188894`)
-    //         .addFields(
-    //             {
-    //                 name: `Message:`,
-    //                 value: content,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Message author:`,
-    //                 value: `<@${author.id}>`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Channel:`,
-    //                 value: `<#${channelId}>`,
-    //                 inline: false
-    //             },
-    //         )
-    //         .setTimestamp(Date.now())
-    //         try{
-    //         messhook.send({
-    //             username: client.user.username+'-logger',
-    //             avatarURL: client.user.avatarURL({dynamic: true}),
-    //             embeds: [embed],
-    //         }).then(() => {
-    //             embed.spliceFields(0,3);
-    //         });
-    //     } catch(error){
-    //         console.error(error);
-    //     };
-    // });
+    client.on("messageDelete", async (message) => {
+        if(message.author.bot || message.guild.id != '619100495423864842') return;
+        let content = message.content, author = message.author, channelId = message.channel.id;
+        if(!content) content = '-----';
+        if(!author) author = '-----';
+        if(!channelId) channelId = '-----'
+        const embed = {
+            author: {
+                name: `Message deleted!`, 
+                icon_url: message.author.avatarURL({dynamic: true}).toString()
+            },
+            color: 0x188894,
+            fields:[
+                {
+                    name: `Message:`,
+                    value: content,
+                    inline: false
+                },
+                {
+                    name: `Message author:`,
+                    value: `<@${author.id}>`,
+                    inline: false
+                },
+                {
+                    name: `Channel:`,
+                    value: `<#${channelId}>`,
+                    inline: false
+                },
+            ],
+            timestamp: Date.now()
+        };
+            try{
+            messhook.send({
+                username: client.user.username+'-logger',
+                avatarURL: client.user.avatarURL({dynamic: true}),
+                embeds: [embed],
+            })
+        } catch(error){
+            console.error(error);
+        };
+    });
     
-    // client.on("messageDeleteBulk", async (message) => {
-    //     if(message.last().author.bot  || message.last().guild.id != '619100495423864842') return;
-    //     let content = message.last().content, author = message.last().author, channelId = message.last().channel.id;
-    //     if(!content) content = '-----';
-    //     if(!author) author = '-----';
-    //     if(!channelId) channelId = '-----'
-    //     const embed = new Discord.MessageEmbed()
-    //         .setAuthor(`Message deleted (BULK)!`, message.last().author.avatarURL({dynamic: true}))
-    //         .setColor(`074045`)
-    //         .addFields(
-    //             {
-    //                 name: `Last message author:`,
-    //                 value: `<@${author.id}>`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Last message content:`,
-    //                 value: `${content}`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Channel:`,
-    //                 value: `<#${channelId}>`,
-    //                 inline: false
-    //             },
-    //         )
-    //         .setTimestamp(Date.now())
-    //         try{
-    //             messhook.send({
-    //                 username: client.user.username+'-logger',
-    //                 avatarURL: client.user.avatarURL({dynamic: true}),
-    //                 embeds: [embed],
-    //             }).then(() => {
-    //                 embed.spliceFields(0,3);
-    //             });
-    //         } catch(error){
-    //             console.error(error);
-    //         };
-    // });
+    client.on("messageDeleteBulk", async (message) => {
+        if(message.last().author.bot  || message.last().guild.id != '619100495423864842') return;
+        let content = message.last().content, author = message.last().author, channelId = message.last().channel.id;
+        if(!content) content = '-----';
+        if(!author) author = '-----';
+        if(!channelId) channelId = '-----'
+        const embed = {
+            author: {
+                name: `Message deleted (BULK)!`,
+                icon_url: message.last().author.avatarURL({dynamic: true}).toString()
+            },
+            color: 0x074045,
+            fields: [
+                {
+                    name: `Last message author:`,
+                    value: `<@${author.id}>`,
+                    inline: false
+                },
+                {
+                    name: `Last message content:`,
+                    value: `${content}`,
+                    inline: false
+                },
+                {
+                    name: `Channel:`,
+                    value: `<#${channelId}>`,
+                    inline: false
+                },
+            ],
+            timestamp: Date.now()
+        };
+            try{
+                messhook.send({
+                    username: client.user.username+'-logger',
+                    avatarURL: client.user.avatarURL({dynamic: true}),
+                    embeds: [embed],
+                })
+            } catch(error){
+                console.error(error);
+            };
+    });
     
     // //      VOICE
     
-    // client.on("voiceChannelJoin", (member, vcchannel) => {
-    //     if(vcchannel.guild.id != '619100495423864842') return;
-    //     let uId = member.user.id, vc = vcchannel.name;
-    //     if(!uId) uId = '-----';
-    //     if(!vc) vc = '-----';
-    //     const embed = new Discord.MessageEmbed()
-    //         .setAuthor(`User joined voice channel!`, member.user.avatarURL({dynamic: true}))
-    //         .setColor(`59eae4`)
-    //         .addFields(
-    //             {
-    //                 name: `User:`,
-    //                 value: `<@${uId}>`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Channel:`,
-    //                 value: `${vc}`,
-    //                 inline: false
-    //             },
-    //         )
-    //         .setTimestamp(Date.now())
-    //         try{
-    //             voicehook.send({
-    //                 username: client.user.username+'-logger',
-    //                 avatarURL: client.user.avatarURL({dynamic: true}),
-    //                 embeds: [embed],
-    //             });
-    //         } catch(error){
-    //             console.error(error);
-    //         };
-    // });
+    client.on("voiceChannelJoin", (member, vcchannel) => {
+        if(vcchannel.guild.id != '619100495423864842') return;
+        let uId = member.user.id, vc = vcchannel.name;
+        if(!uId) uId = '-----';
+        if(!vc) vc = '-----';
+        const embed = {
+            author:{
+                name: `User joined voice channel!`,
+                icon_url: member.user.avatarURL({dynamic: true}).toString()
+            },
+            color: 0x59eae4,
+            fields:[
+                {
+                    name: `User:`,
+                    value: `<@${uId}>`,
+                    inline: false
+                },
+                {
+                    name: `Channel:`,
+                    value: `${vc}`,
+                    inline: false
+                },
+            ],
+            timestamp: Date.now(),
+        };
+            try{
+                voicehook.send({
+                    username: client.user.username+'-logger',
+                    avatarURL: client.user.avatarURL({dynamic: true}),
+                    embeds: [embed],
+                });
+            } catch(error){
+                console.error(error);
+            };
+    });
     
-    // client.on("voiceChannelLeave", (member, channel) => {
-    //     if(channel.guild.id != '619100495423864842') return;
-    //     let uId = member.user.id, vc = channel.name;
-    //     if(!uId) uId = '-----';
-    //     if(!vc) vc = '-----';
-    //     const embed = new Discord.MessageEmbed()
-    //         .setAuthor(`User left voice channel!`, member.user.avatarURL({dynamic: true}))
-    //         .setColor(`e4380b`)
-    //         .addFields(
-    //             {
-    //                 name: `User:`,
-    //                 value: `<@${uId}>`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Channel:`,
-    //                 value: `${vc}`,
-    //                 inline: false
-    //             },
-    //         )
-    //         .setTimestamp(Date.now())
-    //         try{
-    //             voicehook.send({
-    //                 username: client.user.username+'-logger',
-    //                 avatarURL: client.user.avatarURL({dynamic: true}),
-    //                 embeds: [embed],
-    //             });
-    //         } catch(error){
-    //             console.error(error);
-    //         };
-    // });
+    client.on("voiceChannelLeave", (member, channel) => {
+        if(channel.guild.id != '619100495423864842') return;
+        let uId = member.user.id, vc = channel.name;
+        if(!uId) uId = '-----';
+        if(!vc) vc = '-----';
+            const embed = {
+                author:{
+                    name: `User left voice channel!`,
+                    icon_url: member.user.avatarURL({dynamic: true}).toString()
+                },
+                color: 0xe4380b,
+                fields:[
+                    {
+                        name: `User:`,
+                        value: `<@${uId}>`,
+                        inline: false
+                    },
+                    {
+                        name: `Channel:`,
+                        value: `${vc}`,
+                        inline: false
+                    },
+                ],
+                timestamp: Date.now(),
+            };
+            try{
+                voicehook.send({
+                    username: client.user.username+'-logger',
+                    avatarURL: client.user.avatarURL({dynamic: true}),
+                    embeds: [embed],
+                });
+            } catch(error){
+                console.error(error);
+            };
+    });
     
-    // client.on("voiceChannelSwitch", (member, oldchannel, newchannel) => {
-    //     if(oldchannel.guild.id != '619100495423864842') return;
-    //     let uId = member.user.id, ovc = oldchannel.name, nvc = newchannel.name;
-    //     if(!uId) uId = '-----';
-    //     if(!ovc) ovc = '-----';
-    //     if(!nvc) ovc = '-----';
-    //     const embed = new Discord.MessageEmbed()
-    //         .setAuthor(`User switched voice channel!`, member.user.avatarURL({dynamic: true}))
-    //         .setColor(`24e124`)
-    //         .addFields(
-    //             {
-    //                 name: `User:`,
-    //                 value: `<@${uId}>`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Previous channel:`,
-    //                 value: `${ovc}`,
-    //                 inline: false
-    //             },
-    //             {
-    //                 name: `Actual channel:`,
-    //                 value: `${nvc}`,
-    //                 inline: false
-    //             },
-    //         )
-    //         .setTimestamp(Date.now())
-    //         try{    
-    //             voicehook.send({
-    //                 username: client.user.username+'-logger',
-    //                 avatarURL: client.user.avatarURL({dynamic: true}),
-    //                 embeds: [embed],
-    //             });
-    //         } catch(error){
-    //             console.error(error);
-    //         };
-    // });
+    client.on("voiceChannelSwitch", (member, oldchannel, newchannel) => {
+        if(oldchannel.guild.id != '619100495423864842') return;
+        let uId = member.user.id, ovc = oldchannel.name, nvc = newchannel.name;
+        if(!uId) uId = '-----';
+        if(!ovc) ovc = '-----';
+        if(!nvc) ovc = '-----';
+        const embed = {
+            author: {
+                name: `User switched voice channel!`,
+                icon_url: member.user.avatarURL({dynamic: true}).toString()
+            },
+            color: 0x24e124,
+            fields: [
+                {
+                    name: `User:`,
+                    value: `<@${uId}>`,
+                    inline: false
+                },
+                {
+                    name: `Previous channel:`,
+                    value: `${ovc}`,
+                    inline: false
+                },
+                {
+                    name: `Actual channel:`,
+                    value: `${nvc}`,
+                    inline: false
+                },
+            ],
+            timestamp: Date.now()
+        };
+            try{    
+                voicehook.send({
+                    username: client.user.username+'-logger',
+                    avatarURL: client.user.avatarURL({dynamic: true}),
+                    embeds: [embed],
+                });
+            } catch(error){
+                console.error(error);
+            };
+    });
     
     
     
