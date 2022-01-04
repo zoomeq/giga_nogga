@@ -1,5 +1,5 @@
 module.exports = {
-    name: '',
+    name: 'shuffle',
     description: ``,
     alias: [],
     run: async (message, args, client, guildQueue) => {

@@ -1,5 +1,5 @@
 module.exports = {
-    name: '',
+    name: 'remove',
     description: ``,
     alias: [],
     run: async (message, args, client, guildQueue) => {

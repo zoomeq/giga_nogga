@@ -48,9 +48,10 @@
     client.once('ready', async () => {
         console.log('Ready!');
         console.log('Loaded commands:');
-        for(const command of client.commands){
-            console.log(command.name);
-        };
+        let arr = Array.from(client.commands.values());
+        for(let i=0; i<arr.length;i++){
+            console.log(arr[i].name);
+        }
         
         //stream checker
         var xayoo = new CronJob('0 */1 * * * *', async () => {
