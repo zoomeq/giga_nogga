@@ -139,7 +139,9 @@
     //   globalThis.nowPlaying.edit(`Aktualnie leci: ${newSong.name}\nPoprzednio: ${oldSong.name}`)
     // })
     
-
+    client.player.on('error', (error) => {
+        console.log(error)
+    })
       
       client.on("messageCreate", async message => {
         if (message.channel.type == "dm" || message.author.bot) return;
