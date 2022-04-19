@@ -18,6 +18,7 @@
     const logs = require('discord-logs');
     const {Player} = require('discord-music-player');
     const player = new Player(client);
+    const embedGen = require('./handlers/embedGen');
     
     client.player = player;
     logs(client);
@@ -141,6 +142,36 @@
     
     client.player.on('error', (error) => {
         console.log(error)
+    })
+    client.player.on('songChanged', (queue, newSong, oldSong) => {
+        let embed = new Discord.MessageEmbed();
+        embedGen(embed, queue);
+        queue.data.msg.edit({embeds: [embed]});
+        embed.spliceFields(0,5)
+    })
+    client.on('messageReactionAdd', async (reaction, user) => {
+        if(user.bot) return;
+        let guildQueue = client.player.getQueue(reaction.message.guildId);
+        if(!guildQueue) return;
+        if(reaction.message.id == guildQueue.data.msg.id){
+            if(reaction.emoji.name == '⏯️'){
+                if(guildQueue.data.paused == 0){
+                    guildQueue.setPaused(true);
+                    guildQueue.data.paused = 1;
+                }else{
+                    guildQueue.setPaused(false);
+                    guildQueue.data.paused = 0;
+                }
+                reaction.users.remove(user);
+            }else if(reaction.emoji.name == '⏭️'){
+                guildQueue.skip();
+                reaction.users.remove(user);
+            }else if(reaction.emoji.name == '🔀'){
+                guildQueue.shuffle();
+                client.player.emit('songChanged', guildQueue);
+                reaction.users.remove(user);
+            }
+        }
     })
       
       client.on("messageCreate", async message => {

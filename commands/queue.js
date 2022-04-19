@@ -7,7 +7,7 @@ module.exports = {
     run: async (message, args, client, guildQueue) => {
         let embed = new Discord.MessageEmbed();
             embed.setColor('RANDOM')
-                .setTitle('Aktualna kolejka');
+                .setTitle('Queue');
             let j = 10
             if(guildQueue.songs.length < 10){
                 j = guildQueue.songs.length
